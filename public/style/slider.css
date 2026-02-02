@@ -1,0 +1,886 @@
+/* Hero Container */
+.hero-slider {
+    position: relative;
+    width: 100%;
+    height: 85vh;
+    background: #0099ff;
+    /* Slight gradient for depth */
+    overflow: hidden;
+}
+
+/* Navigation Arrows */
+.nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    z-index: 100;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+}
+
+.nav-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.prev-btn {
+    left: 30px;
+}
+
+.next-btn {
+    right: 30px;
+}
+
+/* --- SLIDE BASICS --- */
+.slide-item {
+    display: none;
+    /* Hidden by default */
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.slide-item.active {
+    display: block;
+}
+
+/* --- CUSTOM TEXT STYLES (Bootstrap Extenders) --- */
+.hero-title {
+    letter-spacing: -1px;
+}
+
+/* Custom Button Styling to match your previous ghost button */
+.btn-custom {
+    border-width: 2px;
+    border-radius: 0;
+    /* Square edges */
+    letter-spacing: 1px;
+    padding: 12px 35px;
+}
+
+.btn-custom:hover {
+    background-color: white;
+    color: #0099ff;
+}
+
+/* --- ANIMATION LAYERS --- */
+/* These ensure images are positioned correctly for animations */
+
+/* Slide 1 & 4 Images */
+.img-wrapper-right {
+    position: relative;
+    height: 60vh;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    z-index: 5;
+}
+
+/* =========================================
+    SLIDE 1: SHIP ANIMATIONS
+    ========================================= */
+.slide-item.active .ship-img {
+    max-width: 100%;
+    height: auto;
+    max-height: 60vh;
+    filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.2));
+    transform: translateY(100vh);
+    animation: shipUp 1s ease-out forwards, floatShip 4s ease-in-out infinite 1s;
+}
+
+.slide-item.exiting .ship-img {
+    animation: shipDown 0.8s ease-in forwards;
+}
+
+@keyframes shipUp {
+    0% {
+        transform: translateY(100vh);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes shipDown {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(100vh);
+        opacity: 0;
+    }
+}
+
+@keyframes floatShip {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+/* WAVES (Slide 1) */
+.wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background: url(/images/wave-ND.png);
+    background-size: 1000px 100px;
+}
+
+.wave1 {
+    animation: animate 30s linear infinite;
+    z-index: 1000;
+    opacity: 1;
+    animation-delay: 0s;
+    bottom: 0;
+}
+
+.wave2 {
+    animation: animate2 15s linear infinite;
+    z-index: 999;
+    opacity: 0.8;
+    animation-delay: -5s;
+    bottom: 10px;
+}
+
+.wave3 {
+    animation: animate 30s linear infinite;
+    z-index: 998;
+    opacity: 0.85;
+    animation-delay: -2s;
+    bottom: 15;
+}
+
+.wave4 {
+    animation: animate2 15s linear infinite;
+    z-index: 997;
+    opacity: 0.75;
+    animation-delay: -5s;
+    bottom: 20px;
+}
+
+@keyframes animate {
+    0% {
+        background-position-x: 0;
+    }
+
+    100% {
+        background-position-x: 1000px;
+    }
+}
+
+@keyframes animate2 {
+    0% {
+        background-position-x: 0;
+    }
+
+    100% {
+        background-position-x: -1000px;
+    }
+}
+
+/* =========================================
+    SLIDE 2: PLANE ANIMATIONS
+    ========================================= */
+/* Plane Container needs to be full width absolute */
+.plane-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay-text {
+    position: relative;
+    z-index: 20;
+    opacity: 0;
+    width: 100%;
+    text-align: center;
+    margin-bottom: -40px;
+    /* Overlap slightly */
+}
+
+.full-plane-img {
+    width: 100%;
+    max-width: 1600px;
+    height: auto;
+    position: relative;
+    z-index: 10;
+    transform: translateX(-100vw);
+    filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.2));
+    top:10%;
+}
+
+.slide-item.active .full-plane-img {
+    animation: planeIn 1.5s ease-out forwards, floatPlane 4s ease-in-out infinite 1.5s;
+}
+
+.slide-item.exiting .full-plane-img {
+    animation: planeOut 0.8s ease-in forwards;
+}
+
+.slide-item.active .overlay-text {
+    animation: textIn 1s ease-out 0.5s forwards;
+}
+
+.slide-item.exiting .overlay-text {
+    animation: textOut 0.5s ease-in forwards;
+}
+
+@keyframes planeIn {
+    0% {
+        transform: translateX(-100vw) scale(0.8);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes planeOut {
+    0% {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(100vw) scale(1.2);
+        opacity: 0;
+    }
+}
+
+@keyframes floatPlane {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* =========================================
+    SLIDE 3: TRUCKS ANIMATIONS
+    ========================================= */
+.truck-content-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 15vh;
+}
+
+.slide-3-text {
+    opacity: 0;
+    z-index: 30;
+    text-align: center;
+}
+
+.truck-full-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50vh;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    z-index: 10;
+}
+
+.forklift-full {
+    position: absolute;
+    left: 13%;
+    bottom: 0;
+    width: 22%;
+    max-width: 400px;
+    z-index: 12;
+    /* filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.4)); */
+}
+
+.semi-truck-full {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 65%;
+    max-width: 900px;
+    z-index: 11;
+    /* filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.4)); */
+}
+
+.slide-item.active .slide-3-text {
+    animation: textIn 1s ease-out 0.5s forwards;
+}
+
+.slide-item.exiting .slide-3-text {
+    animation: textOut 0.5s ease-in forwards;
+}
+
+.slide-item.active .forklift-full {
+    transform: translateX(-100vw);
+    animation: forkliftSlideIn 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.slide-item.exiting .forklift-full {
+    animation: forkliftSlideOut 0.8s ease-in forwards;
+}
+
+.slide-item.active .semi-truck-full {
+    transform: translateX(100vw);
+    animation: truckSlideIn 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.slide-item.exiting .semi-truck-full {
+    animation: truckSlideOut 0.8s ease-in forwards;
+}
+
+@keyframes forkliftSlideIn {
+    0% {
+        transform: translateX(-100vw);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes truckSlideIn {
+    0% {
+        transform: translateX(100vw);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes forkliftSlideOut {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-100vw);
+    }
+}
+
+@keyframes truckSlideOut {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(100vw);
+    }
+}
+
+/* =========================================
+    SLIDE 4: DUAL IMAGES ANIMATION
+   ========================================= */
+
+/* Container for the two images */
+.slide4-dual-container {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    position: relative;
+    z-index: 10;
+    padding-bottom: 20px;
+}
+
+/* --- IMAGE STYLES --- */
+
+/* Left Image */
+.slide4-img-left {
+    position: absolute;
+    bottom: 0;
+    left: 10%; /* Adjusts how close to center it gets */
+    width: 40%; /* Adjust size as needed */
+    max-width: 500px;
+    height: auto;
+    filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.2));
+    
+    /* Start position: Off-screen Left */
+    transform: translateX(-100vw);
+    z-index: 11;
+}
+
+/* Right Image */
+.slide4-img-right {
+    position: absolute;
+    bottom: 0;
+    right: 10%; /* Adjusts how close to center it gets */
+    width: 40%; /* Adjust size as needed */
+    max-width: 500px;
+    height: auto;
+    filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.2));
+    
+    /* Start position: Off-screen Right */
+    transform: translateX(100vw);
+    z-index: 12;
+}
+
+
+/* --- ANIMATIONS: ACTIVE (Entrance) --- */
+
+.slide-item.active .slide4-img-left {
+    /* Enter: Left -> Center */
+    animation: s4InLeft 1.2s ease-out forwards;
+}
+
+.slide-item.active .slide4-img-right {
+    /* Enter: Right -> Center */
+    animation: s4InRight 1.2s ease-out forwards;
+}
+
+
+/* --- ANIMATIONS: EXITING (Exit) --- */
+
+.slide-item.exiting .slide4-img-left {
+    /* Exit: Center -> Left */
+    animation: s4OutLeft 0.8s ease-in forwards;
+}
+
+.slide-item.exiting .slide4-img-right {
+    /* Exit: Center -> Right */
+    animation: s4OutRight 0.8s ease-in forwards;
+}
+
+
+/* --- KEYFRAMES --- */
+
+/* Enter from Left */
+@keyframes s4InLeft {
+    0% { transform: translateX(-100vw); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+}
+
+/* Enter from Right */
+@keyframes s4InRight {
+    0% { transform: translateX(100vw); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+}
+
+/* Exit back to Left */
+@keyframes s4OutLeft {
+    0% { transform: translateX(0); opacity: 1; }
+    100% { transform: translateX(-100vw); opacity: 0; }
+}
+
+/* Exit back to Right */
+@keyframes s4OutRight {
+    0% { transform: translateX(0); opacity: 1; }
+    100% { transform: translateX(100vw); opacity: 0; }
+}
+
+/* Ensure text spacing is consistent */
+.slide-item:nth-child(4) .text-wrapper {
+    margin-top: 12vh;
+}
+
+/* Mobile Adjustments for Slide 4 */
+@media (max-width: 991px) {
+    .slide4-img-left {
+        width: 45%;
+        left: 0;
+    }
+    .slide4-img-right {
+        width: 45%;
+        right: 0;
+    }
+    .slide4-dual-container {
+        height: 35vh;
+    }
+}
+
+/* Text Animation General */
+.slide-item.active .text-wrapper {
+    animation: textIn 1s ease-out 0.5s forwards;
+}
+
+.slide-item.exiting .text-wrapper {
+    animation: textOut 0.5s ease-in forwards;
+}
+
+@keyframes textIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes textOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+}
+
+.text-wrapper {
+    opacity: 0;
+}
+
+/* Hide initially */
+
+/* =========================================
+    RESPONSIVE (Mobile Overrides)
+    ========================================= */
+@media (max-width: 991px) {
+
+    .slide-item h1 {
+        font-size: 45px;
+    }
+    
+    .slide-item h4 {
+        font-size: 25px;
+    }
+
+    .ship-center-container {
+        padding-bottom: 40px !important;
+    }
+    /* Bootstrap 'lg' breakpoint */
+    .slide-item {
+        text-align: center;
+    }
+
+    .img-wrapper-right {
+        justify-content: center;
+        height: 40vh;
+        margin-top: 20px;
+    }
+
+    /* Slide 1 Ship */
+    .slide-item:nth-child(1) .img-wrapper-right {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 60vh;
+        z-index: 1;
+    }
+
+    .slide-item:nth-child(1) .text-wrapper {
+        position: relative;
+        z-index: 50;
+        margin-top: 50px;
+    }
+
+    /* Slide 2 */
+    .full-plane-img {
+        max-width: 150%;
+        margin-left: -25%;
+    }
+
+    .overlay-text h1 {
+        font-size: 2rem;
+    }
+
+    /* Slide 3 */
+    .truck-full-container {
+        height: 35vh;
+    }
+
+    .forklift-full {
+        width: 25%;
+        left: 15px;
+    }
+
+    .semi-truck-full {
+        width: 75%;
+        right: -10px;
+    }
+
+    .slide-3-text h1 {
+        font-size: 2.5rem;
+        display: block;
+    }
+
+    /* Slide 4 */
+    /* .slide-item:nth-child(4) {
+        display: flex !important;
+        flex-direction: column;
+        justify-content: center;
+    } */
+}
+
+
+
+/* =========================================
+    SLIDE 2: PLANE & CLOUD ANIMATIONS
+   ========================================= */
+
+/* Container setup */
+.plane-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Important to hide objects when off-screen */
+}
+
+/* .overlay-text {
+    position: relative;
+    z-index: 20;
+    opacity: 0;
+    width: 100%;
+    text-align: center;
+    margin-bottom: -40px;
+} */
+
+/* --- PLANE STYLES (Existing) --- */
+.full-plane-img {
+    width: 100%;
+    max-width: 1600px;
+    height: auto;
+    position: relative;
+    z-index: 10; /* Plane is in front */
+    transform: translateX(-100vw);
+    filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.2));
+}
+
+/* --- CLOUD STYLES (New) --- */
+.cloud-img {
+    position: absolute;
+    top: 25%; /* Adjust vertical position */
+    /* We don't set left/right here because animation handles X translation */
+    width: 50%; /* Adjust size of cloud */
+    max-width: 600px;
+    z-index: 5; /* Cloud is behind plane (5 < 10) */
+    opacity: 0.8;
+    transform: translateX(100vw); /* Start off-screen RIGHT */
+}
+
+/* --- ANIMATIONS: ACTIVE STATE (Entry) --- */
+.slide-item.active .full-plane-img {
+    /* Plane: Left -> Center */
+    animation: planeIn 1.5s ease-out forwards, floatPlane 4s ease-in-out infinite 1.5s;
+}
+
+.slide-item.active .cloud-img {
+    /* Cloud: Right -> Center */
+    animation: cloudIn 1.5s ease-out forwards;
+}
+
+.slide-item.active .overlay-text {
+    animation: textIn 1s ease-out 0.5s forwards;
+}
+
+/* --- ANIMATIONS: EXITING STATE (Exit) --- */
+.slide-item.exiting .full-plane-img {
+    /* Plane: Center -> Right */
+    animation: planeOut 0.8s ease-in forwards;
+}
+
+.slide-item.exiting .cloud-img {
+    /* Cloud: Center -> Left */
+    animation: cloudOut 0.8s ease-in forwards;
+}
+
+.slide-item.exiting .overlay-text {
+    animation: textOut 0.5s ease-in forwards;
+}
+
+/* --- KEYFRAMES --- */
+
+/* Plane: Left -> Center */
+@keyframes planeIn {
+    0% { transform: translateX(-100vw) scale(0.8); opacity: 0; }
+    100% { transform: translateX(0) scale(1); opacity: 1; }
+}
+
+/* Plane: Center -> Right */
+@keyframes planeOut {
+    0% { transform: translateX(0) scale(1); opacity: 1; }
+    100% { transform: translateX(100vw) scale(1.2); opacity: 0; }
+}
+
+/* Cloud: Right -> Center */
+@keyframes cloudIn {
+    0% { transform: translateX(100vw); opacity: 0; }
+    100% { transform: translateX(100px); opacity: 0.9; } /* 100px offset to not be perfectly centered behind plane */
+}
+
+/* Cloud: Center -> Left */
+@keyframes cloudOut {
+    0% { transform: translateX(100px); opacity: 0.9; }
+    100% { transform: translateX(-100vw); opacity: 0; }
+}
+
+@keyframes floatPlane {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* --- MOBILE RESPONSIVE TWEAKS --- */
+@media (max-width: 991px) {
+    .cloud-img {
+        width: 70%;
+        top: 15%;
+    }
+    /* Adjust Cloud animation for mobile to be centered */
+    @keyframes cloudIn {
+        0% { transform: translateX(100vw); opacity: 0; }
+        100% { transform: translateX(0); opacity: 0.9; } 
+    }
+    @keyframes cloudOut {
+        0% { transform: translateX(0); opacity: 0.9; }
+        100% { transform: translateX(-100vw); opacity: 0; }
+    }
+}
+
+
+
+
+
+.ship-center-container {
+    flex: 1; /* Takes up remaining vertical space below text */
+    width: 100%;
+    display: flex;
+    align-items: flex-end; /* Pushes ship to the bottom */
+    justify-content: center; /* Centers ship horizontally */
+    position: relative;
+    z-index: 10; /* Behind text (50), Behind waves (997+) */
+    padding-bottom: 5px; /* Slight gap from very bottom */
+}
+
+/* Ship Image Styling */
+.slide-item.active .ship-img {
+    max-width: 90%; /* Allow it to be wider since it's full width now */
+    height: auto;
+    max-height: 55vh; /* Adjust height so it doesn't hit the text */
+    filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.2));
+    
+    /* Keep your existing animation */
+    transform: translateY(100vh);
+    animation: shipUp 1s ease-out forwards, floatShip 4s ease-in-out infinite 1s;
+}
+
+.slide-item.exiting .ship-img {
+    animation: shipDown 0.8s ease-in forwards;
+}
+
+/* Ensure text is readable */
+.slide-item:nth-child(1) .text-wrapper {
+    margin-top: 12vh; /* Push text down a bit from the top edge */
+}
+
+/* --- ANIMATION KEYFRAMES (Existing - No Change Needed) --- */
+@keyframes shipUp {
+    0% { transform: translateY(100vh); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+@keyframes shipDown {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(100vh); opacity: 0; }
+}
+@keyframes floatShip {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+
+/* =========================================
+    SLIDE 4: FORKLIFT (CENTERED LAYOUT)
+   ========================================= */
+
+/* Container to center the forklift at the bottom */
+.forklift-center-container {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    align-items: flex-end; /* Push to bottom */
+    justify-content: center; /* Center horizontally */
+    position: relative;
+    z-index: 10;
+    padding-bottom: 20px;
+}
+
+/* Forklift Image Styles */
+.forklift-yellow-img {
+    max-width: 85%; /* Slightly smaller than full width to keep proportions */
+    height: auto;
+    max-height: 55vh; /* Ensure it fits under text */
+    filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.2));
+    
+    /* Initial State for Animation */
+    transform: translateX(-100vw); 
+}
+
+/* Ensure text doesn't hit the top edge too hard */
+.slide-item:nth-child(4) .text-wrapper {
+    margin-top: 12vh;
+}
+
+/* --- ANIMATIONS (Keep existing logic) --- */
+
+/* 1. Entrance: Left -> Center */
+.slide-item.active .forklift-yellow-img {
+    animation: driveInLeft 1s ease-out forwards;
+}
+
+/* 2. Exit: Center -> Right */
+.slide-item.exiting .forklift-yellow-img {
+    animation: driveOutRight 0.8s ease-in forwards;
+}
+
+/* Keyframes */
+@keyframes driveInLeft {
+    0% { transform: translateX(-100vw); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes driveOutRight {
+    0% { transform: translateX(0); opacity: 1; }
+    100% { transform: translateX(100vw); opacity: 0; }
+}

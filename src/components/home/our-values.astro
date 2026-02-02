@@ -1,0 +1,120 @@
+---
+import "../../../public/style/our-values.css";
+
+import { ui } from "../../src/i18n/ui";
+
+const { lang = "en" } = Astro.props;
+const t = ui[lang];
+const vlaues = t["our_values.secion.items"];
+---
+
+<section
+    class="about-modern py-5 position-relative overflow-hidden"
+    id="our-values"
+>
+    <div class="container our-headline">
+        <div class="row justify-content-center mb-5">
+            <h2>
+                {t["our_values.secion.name"]["p1"]}
+                <br />
+                {t["our_values.secion.name"]["p2"]}
+            </h2>
+        </div>
+    </div>
+
+    <div class="container-fluid p-0">
+        <div class="main-wrapper">
+            <!-- LEFT (30% Width): The Curve -->
+            <div class="curve-container">
+                <svg
+                    class="intro-curve"
+                    viewBox="0 0 400 600"
+                    preserveAspectRatio="none"
+                >
+                    <defs>
+                        <!-- BLUE GRADIENT for the Curve -->
+                        <linearGradient
+                            id="gradientBlue"
+                            x1="0%"
+                            y1="100%"
+                            x2="100%"
+                            y2="0%"
+                        >
+                            <!-- Start: Very light blue / Transparent -->
+                            <stop
+                                offset="0%"
+                                style="stop-color:#dcebf7;stop-opacity:0"
+                            ></stop>
+                            <!-- Middle: Fading in blue -->
+                            <stop
+                                offset="40%"
+                                style="stop-color:#3c72ba;stop-opacity:0.4"
+                            ></stop>
+                            <!-- End: Solid Blue (#3c72ba) -->
+                            <stop
+                                offset="100%"
+                                style="stop-color:#3c72ba;stop-opacity:1"
+                            ></stop>
+                        </linearGradient>
+                    </defs>
+                    <!-- Curve Path -->
+                    <path d="M -50 600 Q 150 550 398 2" class="curve-path"
+                    ></path>
+                </svg>
+            </div>
+
+            <!-- RIGHT (Rest): Timeline -->
+            <div class="timeline-column" id="timelineRef">
+                <!-- Vertical Lines -->
+                <div class="vertical-track"></div>
+                <div class="active-line" id="scrollLine"></div>
+
+                <!-- ITEM 01 -->
+                {
+                    vlaues.map((value) => (
+                        <div class="timeline-item" style="margin-top: 30px;">
+                            <div class="dot" />
+                            <div class="content">
+                                <div class="text-secondary">{value.nbr}</div>
+                                <h4 class="fw-bold">{value.title}</h4>
+                                <p class="text-desc">{value.description}</p>
+                            </div>
+                        </div>
+                    ))
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const timelineCol = document.getElementById("timelineRef");
+        const scrollLine = document.getElementById("scrollLine");
+        const items = document.querySelectorAll(".timeline-item");
+
+        const drawTriggerOffset = window.innerHeight / 2;
+
+        function updateScroll() {
+            const rect = timelineCol.getBoundingClientRect();
+            const topOfTimeline = rect.top;
+
+            let lineLength = drawTriggerOffset - topOfTimeline;
+            if (lineLength < 0) lineLength = 0;
+
+            scrollLine.style.height = `${lineLength}px`;
+
+            items.forEach((item) => {
+                const itemTop = item.offsetTop;
+                if (lineLength > itemTop + 10) {
+                    item.classList.add("revealed");
+                } else {
+                    item.classList.remove("revealed");
+                }
+            });
+        }
+
+        window.addEventListener("scroll", updateScroll);
+        updateScroll();
+    });
+</script>

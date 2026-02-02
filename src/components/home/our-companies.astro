@@ -1,0 +1,67 @@
+---
+import "../../../public/style/our-companies.css";
+
+import { ui } from "../../src/i18n/ui";
+
+const { lang = "en" } = Astro.props;
+const t = ui[lang];
+const companies = t["our_companies.secion.items"];
+---
+
+<section
+    class="about-modern py-5 position-relative overflow-hidden"
+    id="our-companies"
+>
+    <div class="container our-headline">
+        <div class="row justify-content-center mb-5">
+            <h2>
+                {t["our_companies.secion.name"]["p1"]}
+                <br />
+                {t["our_companies.secion.name"]["p2"]}
+            </h2>
+        </div>
+    </div>
+
+    <div class="elastic-container">
+        <!-- 1. MSS -->
+        {
+            companies.map((company) => (
+                <div
+                    class="elastic-panel"
+                    style={`background-image: url(${company.img_1});`}
+                >
+                    <div class="panel-icon">
+                        <img src={company.img_2} alt="" />
+                    </div>
+                    <div class="panel-content">
+                        <h3 class="panel-title">{company.title}</h3>
+                        <p class="panel-desc">{company.description}</p>
+                        <a
+                            href={company.url}
+                            target="_blank"
+                            class="panel-btn"
+                        >
+                            {t["our_companies.secion.btn"]} {company.title}
+                        </a>
+                    </div>
+                </div>
+            ))
+        }
+    </div>
+</section>
+
+<script>
+    // Simple script to allow 'tap' to expand on tablets if hover doesn't work well
+    const panels = document.querySelectorAll(".elastic-panel");
+
+    panels.forEach((panel) => {
+  panel.addEventListener("click", () => {
+    // Run only on desktop
+    if (window.innerWidth > 991) {
+      panels.forEach((p) => (p.style.flex = "1"));
+      panel.style.flex = "3";
+    }
+  });
+});
+
+</script>

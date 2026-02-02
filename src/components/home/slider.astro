@@ -1,0 +1,227 @@
+---
+import "../../../public/style/slider.css";
+import { ui } from "../../src/i18n/ui";
+
+const { lang = "en" } = Astro.props;
+const t = ui[lang];
+const sliders = t["sliders.items"];
+---
+
+<div class="hero-slider">
+    <!-- Navigation Buttons -->
+    <button class="nav-btn prev-btn" id="prevBtn">❮</button>
+    <button class="nav-btn next-btn" id="nextBtn">❯</button>
+
+    <!-- ================= SLIDE 1: SHIP ================= -->
+    <div class="slide-item active">
+        <div class="container h-100" style="max-width:100%">
+            <!-- Changed to Flex Column to stack Text on Top, Image on Bottom -->
+            <div
+                class="d-flex flex-column h-100 justify-content-center align-items-center"
+            >
+                <!-- Text (Top) -->
+                <div
+                    class="text-wrapper text-white text-center mt-5"
+                    style="z-index: 50;margin-bottom: -40px;"
+                >
+                    <h1
+                        style="color:#1C4587"
+                        class="fw-bold text-uppercase hero-title"
+                    >
+                        {sliders[0]['title_1']} <br />
+                    </h1>
+
+                    <h4 class="fw-bold">
+                        {sliders[0]['title_2']}
+                    </h4>
+                </div>
+
+                <!-- Image (Bottom) -->
+                <div class="ship-center-container">
+                    <img
+                        src="/images/bateaux.png"
+                        alt="Container Ship"
+                        class="ship-img"
+                    />
+                </div>
+            </div>
+        </div>
+
+        <!-- Waves (Keep existing) -->
+        <div class="slide-1-waves">
+            <div class="wave wave1"></div>
+            <div class="wave wave2"></div>
+            <div class="wave wave3"></div>
+            <div class="wave wave4"></div>
+        </div>
+    </div>
+
+    <!-- ================= SLIDE 3: TRUCKS ================= -->
+    <div class="slide-item">
+        <div class="truck-content-wrapper text-white">
+            <div class="slide-3-text">
+                <h1
+                    style="color:#1C4587"
+                    class="fw-bold text-uppercase hero-title"
+                >
+                {sliders[1]['title_1']} <br />
+                </h1>
+
+                <h4 class="fw-bold">
+                    {sliders[1]['title_1']}
+                </h4>
+            </div>
+        </div>
+        <div class="truck-full-container">
+            <img
+                src="/images/truck_1-2.png"
+                alt="Forklift"
+                class="forklift-full"
+            />
+            <img
+                src="/images/truck-real.png"
+                alt="Semi Truck"
+                class="semi-truck-full"
+            />
+        </div>
+    </div>
+
+    <!-- ================= SLIDE 4: FORKLIFT ================= -->
+    <div class="slide-item">
+        <div class="container h-100">
+            <!-- Stacked Layout: Text Top, Images Bottom -->
+            <div
+                class="d-flex flex-column h-100 justify-content-center align-items-center"
+            >
+                <!-- Text (Top) -->
+                <div
+                    class="text-wrapper text-white text-center mt-5"
+                    style="z-index: 50;"
+                >
+                    <h1
+                        style="color:#1C4587"
+                        class="fw-bold text-uppercase hero-title mb-4"
+                    >
+                    {sliders[2]['title_1']} <br />
+                    </h1>
+
+                    <h4 class="fw-bold">
+                        {sliders[2]['title_1']}
+                    </h4>
+                </div>
+
+                <!-- Images Container (Bottom) -->
+                <div class="slide4-dual-container">
+                    <!-- Image 1: Left Side -->
+                    <img
+                        src="/images/bbbb.png"
+                        alt="Left Cargo"
+                        class="slide4-img-left"
+                    />
+
+                    <!-- Image 2: Right Side -->
+                    <img
+                        src="/images/OOOO.png"
+                        alt="Right Cargo"
+                        class="slide4-img-right"
+                    />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= SLIDE 2: PLANE ================= -->
+    <div class="slide-item">
+        <div class="plane-container">
+            <div class="overlay-text text-white">
+                <h1
+                    style="color:#1C4587"
+                    class="fw-bold text-uppercase hero-title"
+                >
+                {sliders[3]['title_1']}<br />
+                </h1>
+                <h4 class="fw-bold">
+                    {sliders[3]['title_1']}
+                </h4>
+            </div>
+
+            <!-- Cloud Image (Behind Plane) -->
+            <!-- Using the image you uploaded -->
+            <img
+                src="/images/realistic-white-cloud-png.png"
+                alt="Cloud"
+                class="cloud-img"
+            />
+
+            <!-- Plane Image (Front) -->
+            <img
+                src="/images/QT.png"
+                alt="Cargo Plane"
+                class="full-plane-img"
+            />
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentSlideIndex = 0;
+    const slides = document.querySelectorAll(".slide-item");
+    const nextBtn = document.getElementById("nextBtn");
+    const prevBtn = document.getElementById("prevBtn");
+    let isAnimating = false;
+    
+    // --- AUTOSLIDER CONFIG ---
+    let autoSlideDelay = 10000; // 5 seconds
+    let autoSlideInterval;
+
+    function switchSlide(direction) {
+        if (isAnimating) return;
+        isAnimating = true;
+
+        const activeSlide = slides[currentSlideIndex];
+
+        let nextIndex = currentSlideIndex + direction;
+        if (nextIndex >= slides.length) nextIndex = 0;
+        if (nextIndex < 0) nextIndex = slides.length - 1;
+
+        const nextSlide = slides[nextIndex];
+
+        // Trigger Exit Animation
+        activeSlide.classList.add("exiting");
+
+        setTimeout(() => {
+            activeSlide.classList.remove("active", "exiting");
+            nextSlide.classList.add("active");
+
+            currentSlideIndex = nextIndex;
+            isAnimating = false;
+        }, 800);
+    }
+
+    // --- AUTOSLIDER LOGIC ---
+    function startAutoSlide() {
+        autoSlideInterval = setInterval(() => {
+            switchSlide(1);
+        }, autoSlideDelay);
+    }
+
+    function resetAutoSlide() {
+        clearInterval(autoSlideInterval);
+        startAutoSlide();
+    }
+
+    // Manual Controls
+    nextBtn.addEventListener("click", () => {
+        switchSlide(1);
+        resetAutoSlide(); // Reset timer on click
+    });
+
+    prevBtn.addEventListener("click", () => {
+        switchSlide(-1);
+        resetAutoSlide(); // Reset timer on click
+    });
+
+    
+    // Start the autoslider on load
+    startAutoSlide();
+</script>

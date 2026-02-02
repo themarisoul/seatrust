@@ -1,0 +1,155 @@
+/* --- MAIN WE-CARGO SECTION --- */
+.wecargo-section {
+    background-color: #1C4587;
+    position: relative;
+}
+
+/* The Sticky Logic */
+.sticky-col {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    z-index: 10;
+}
+
+.cargo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    /* animation: float 6s ease-in-out infinite; */
+}
+
+/* Right Content Logic */
+.content-col {
+    padding-top: 15vh;
+    padding-bottom: 15vh;
+    padding-right: 5rem;
+    /* Important: This column must be taller than 100vh for the sticky effect to work */
+}
+
+/* Typography & List Styling */
+.wecargo-section h1.hero-title {
+    font-size: 4rem;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 5rem;
+    letter-spacing: -1px;
+}
+
+.service-item {
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding:0;
+    /* Large padding to ensure page is long enough to scroll */
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.service-item:hover {
+    border-top: 1px solid rgba(255, 255, 255, 1);
+}
+
+.service-num {
+    font-size: 0.9rem;
+    opacity: 0.7;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.service-title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.service-desc {
+    font-size: 1.1rem;
+    color: #aaaaaa;
+    max-width: 85%;
+}
+
+.arrow-icon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.service-item:hover .arrow-icon {
+    opacity: 1;
+    right: 0px;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+/* Mobile */
+@media (max-width: 991px) {
+    .wecargo-section h1.hero-title {
+        font-size: 3.2rem;
+    }
+
+    .sticky-col {
+        position: relative;
+        height: auto;
+        padding: 0rem 1rem 4rem 1rem;
+    }
+
+    .content-col {
+        padding: 2rem 1.5rem;
+    }
+
+    /* h1.hero-title {
+        font-size: 2.5rem;
+        margin-bottom: 3rem;
+    } */
+}
+
+
+.container-fluid.wecargo-section h1 {
+    color: #f59331;
+}
+
+.container-fluid.wecargo-section h3 {
+    color: white;
+}
+
+.container-fluid.wecargo-section .service-num {
+    color: #F59331;
+}
+
+
+/* REQUIRED FOR STICKY BOUNDARY */
+.wecargo-wrapper {
+    position: relative;
+}
+
+/* Truck area */
+.truck-zone {
+    position: relative;
+    margin-top: 6vh;
+}
+
+.truck-img {
+    width: 100%;
+    display: block;
+}

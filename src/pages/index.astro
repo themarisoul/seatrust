@@ -1,0 +1,32 @@
+---
+import Header from "../components/header.astro";
+import Footer from "../components/footer.astro";
+import Slider from "../components/home/slider.astro";
+import MAP from "../components/home/map.astro";
+import About from "../components/home/about.astro";
+import OurValues from "../components/home/our-values.astro";
+import OurCompanies from "../components/home/our-companies.astro";
+import CTA from "../components/home/cta.astro";
+import FloatingContainer from "../components/home/floating-container.astro";
+import Video from "../components/home/video.astro";
+import Layout from "../layouts/Layout.astro";
+
+const lang = 'en';
+
+---
+
+
+<Layout>
+	<Header lang={lang} />
+	<Slider lang={lang} />
+	<About lang={lang}  />
+	<Video />
+	<OurValues lang={lang} />
+	<OurCompanies lang={lang} />
+	<FloatingContainer lang={lang} />
+	<br />
+	<br />
+	<MAP lang={lang} />
+	<CTA lang={lang}/>
+	<Footer/>
+</Layout>

@@ -1,0 +1,128 @@
+---
+import { ui } from '../src/i18n/ui';
+
+const { lang = 'en' } = Astro.props;
+const t = ui[lang];
+
+// Helper to handle links with language prefix
+
+const currentPath = Astro.url.pathname;
+const l = (path: string) => `/${lang}/${path}`;
+import "../../public/style/header.css";
+
+
+// true if French
+const isFr = currentPath.startsWith('/fr');
+
+// active language
+const activeLang = isFr ? 'fr' : 'en';
+---
+<div class="ex2-nav">
+    <!-- TOP BAR -->
+    <div class="ex2-top">
+        <div class="container">
+            <div class="top-left">
+                <span class="top-left-text">{t['header.tagline']}</span>
+                <div class="top-socials-mobile">
+                    <a href="https://www.facebook.com/seatrustgroup/"><i class="bi bi-facebook"></i></a>
+                    <a href="https://www.linkedin.com/company/18392886/"><i class="bi bi-linkedin"></i></a>
+                    <a href="https://twitter.com/SeatrustG"><i class="bi bi-twitter-x"></i></a>
+                </div>
+            </div>
+
+            <div class="top-right-contacts">
+                <!-- Address, Email, and Phone links remain the same -->
+                <a href="https://www.google.com/maps/..." class="contact-item" target="_blank">
+                    <i class="bi bi-geo-alt"></i>
+                    <span class="contact-text">12, Rue Oraibi Jilali, Casablanca</span>
+                </a>
+                <a href="mailto:contact@seatrust.ma" class="contact-item" target="_blank">
+                    <i class="bi bi-envelope-fill"></i>
+                    <span class="contact-text">contact@seatrust.ma</span>
+                </a>
+                <a href="tel:+212522435090" class="contact-item phone-highlight">
+                    <i class="bi bi-telephone-fill"></i>
+                    <span class="contact-text">+212 522 435 090</span>
+                    
+                </a>
+
+                <!-- LANGUAGE SWITCHER -->
+                <div class="lang-switcher ms-3">
+                    <a href="/" class={lang === 'en' ? 'active-lang' : ''}>EN</a> | 
+                    <a href={lang === 'en' ? '/fr' : '/'} class={lang === 'fr' ? 'active-lang' : ''}>FR</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN HEADER -->
+    <header class="ex2-header">
+        <div class="container" style="width: 100%;">
+            <div class="header-left">
+                <a href={activeLang === 'en' ? '/' : '/fr'}  class="logo-box">
+                    <img src="/images/logo-foter.png" class="logo-img" alt="Seatrust Group" />
+                </a>
+            </div>
+
+            <div class="header-center">
+                <nav class="ex2-links">
+                    <a href={activeLang === 'en' ? '/' : '/fr'} 
+                    class={(currentPath == '/' || currentPath == '/fr/') ? "activeMenuItem" : ""}>{t['nav.home']}</a>
+                    <a href="#about-section">{t['nav.about']}</a>
+                    <a href="#our-companies">{t['nav.companies']}</a>
+                    <a href={activeLang === 'en' ? '/contact' : '/fr/contact'}  class={(currentPath == '/contact' || currentPath == '/fr/contact/') ? "activeMenuItem" : ""}>{t['nav.contact']}</a>
+                </nav>
+            </div>
+
+            <div class="header-right">
+                <a href="tel:+212522435090" class="btn-call">{t['nav.call']}</a>
+                <div class="desktop-header-socials">
+                    <a href="#"><i class="bi bi-facebook"></i></a>
+                    <a href="#"><i class="bi bi-linkedin"></i></a>
+                    <a href="#"><i class="bi bi-twitter-x"></i></a>
+                </div>
+                <div class="mobile-menu-toggle" onclick="toggleMenu()">
+                    <i class="bi bi-list" id="menuIcon"></i>
+                </div>
+            </div>
+        </div>
+
+        <svg class="ex2-wave" preserveAspectRatio="none" viewBox="0 0 1440 100">
+            <path d="M0,40 C320,100 420,0 720,40 C1020,80 1120,0 1440,40 L1440,100 L0,100 Z"></path>
+            <path d="M0,50 C320,110 420,10 720,50 C1020,90 1120,10 1440,50 L1440,100 L0,100 Z" opacity="0.3"></path>
+        </svg>
+    </header>
+</div>
+
+<!-- MOBILE OVERLAY MENU -->
+<div class="mobile-overlay" id="mobileOverlay">
+    <div class="mobile-close" onclick="toggleMenu()">
+        <i class="bi bi-x-lg"></i>
+    </div>
+
+    <a href={l('/')} class={currentPath === l('/') ? "active" : ""}>{t['nav.home']}</a>
+    <a href="#about-section">{t['nav.about']}</a>
+    <a href="#our-companies">{t['nav.companies']}</a>
+    <a href={l('/contact')} class={currentPath === l('/contact') ? "active" : ""}>{t['nav.contact']}</a>
+</div>
+
+<style>
+    .active-lang { color: var(--sea-orange) !important; font-weight: bold; }
+    .lang-switcher { font-size: 11px; color: white; }
+    .lang-switcher a { color: white; text-decoration: none; padding: 0 4px; }
+</style>
+
+<script>
+    window.toggleMenu = function () {
+        const overlay = document.getElementById("mobileOverlay");
+        const icon = document.getElementById("menuIcon");
+        overlay.classList.toggle("active");
+
+        // Synchronize the header hamburger icon state
+        if (overlay.classList.contains("active")) {
+            icon.classList.replace("bi-list", "bi-x-lg");
+        } else {
+            icon.classList.replace("bi-x-lg", "bi-list");
+        }
+    };
+</script>
